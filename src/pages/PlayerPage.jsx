@@ -3,117 +3,127 @@ import { useParams, Link } from 'react-router-dom';
 import playerData from '../data/playerData';
 import {
   Typography,
-  Card,
-  CardContent,
-  TextField,
   Button,
   Box,
-  Divider
+  Divider,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
+import './PlayerPage.css';
 
 function PlayerPage() {
   const { id } = useParams();
   const player = playerData.find((p) => String(p.playerId) === id);
 
+  const [flipped, setFlipped] = useState(false);
+  const [statMode, setStatMode] = useState('perGame');
   const [scoutingReports, setScoutingReports] = useState([]);
   const [newReport, setNewReport] = useState('');
 
-  if (!player) {
-    return <Typography variant="h6">Player not found</Typography>;
-  }
+  if (!player) return <Typography variant="h6">Player not found</Typography>;
 
   const handleSubmit = () => {
-    if (newReport.trim() !== '') {
-      setScoutingReports(prev => [...prev, newReport.trim()]);
+    if (newReport.trim()) {
+      setScoutingReports((prev) => [...prev, newReport.trim()]);
       setNewReport('');
     }
   };
 
-  return (
-    <div style={{ padding: '20px' }}>
-      <Link to="/" style={{ textDecoration: 'none', marginBottom: '10px', display: 'inline-block' }}>
-        ← Back to Big Board
-      </Link>
+  const statsObj = player.seasonStats?.[statMode];
+  const stats = statsObj ? Object.entries(statsObj) : [];
 
-      <Card sx={{ maxWidth: 500 }}>
-        <CardContent>
-            <img
+  return (
+    <div className="page-wrapper">
+      {/* Fixed back button */}
+      <Box sx={{ position: 'absolute', top: 20, left: 20 }}>
+        <Link to="/" style={{ textDecoration: 'none' }}>← Back to Big Board</Link>
+      </Box>
+
+      {/* Layout with left/right sections */}
+      <Box className="content-layout" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '60px' }}>
+        
+        {/* Scouting Reports on the left */}
+        <Box className="scouting-box">
+          <Typography variant="h6">Scouting Reports</Typography>
+          <textarea
+            rows={4}
+            value={newReport}
+            onChange={(e) => setNewReport(e.target.value)}
+            placeholder="Write your report here..."
+            className="scouting-textarea"
+          />
+          <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
+            Submit
+          </Button>
+
+          {scoutingReports.map((r, i) => (
+            <Box key={i} sx={{ my: 1, p: 2, backgroundColor: '#222', color: '#fff', borderRadius: '8px' }}>
+              {r}
+            </Box>
+          ))}
+        </Box>
+
+        {/* Player Card in the center */}
+        <Box className={`flip-container ${flipped ? 'flipped' : ''}`}>
+          <Box className="flipper">
+            {/* Front Face */}
+            <Box className="front">
+              <img
                 src={player.photoUrl || 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp'}
                 alt={player.name}
                 onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp';
+                  e.target.onerror = null;
+                  e.target.src = 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp';
                 }}
-                style={{ width: '150px', borderRadius: '8px', marginBottom: '15px' }}
-            />
+                className="player-image"
+              />
 
+              <Typography variant="h4">{player.name}</Typography>
+              <Typography>Team: {player.currentTeam}</Typography>
+              <Typography>League: {player.league}</Typography>
+              <Typography>Birth Date: {player.birthDate}</Typography>
+              <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
+              <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
 
-          <Typography variant="h4" sx={{ mb: 1 }}>{player.name}</Typography>
-          <Typography variant="subtitle1">Team: {player.currentTeam}</Typography>
-          <Typography variant="subtitle1">League: {player.league}</Typography>
-          <Typography variant="body2">Birth Date: {player.birthDate}</Typography>
-          <Typography variant="body2">
-            Hometown: {player.homeTown}, {player.homeCountry}
-          </Typography>
-          <Typography variant="body2">
-            Height: {player.height}" • Weight: {player.weight} lbs
-          </Typography>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h6">Scout Rankings:</Typography>
+              {player.rankings?.map((r, i) => (
+                <Typography key={i}>{r.scout}: #{r.rank}</Typography>
+              ))}
 
-          <Divider sx={{ my: 2 }} />
+              <Button variant="outlined" onClick={() => setFlipped(true)} sx={{ mt: 2 }}>
+                View Stats
+              </Button>
+            </Box>
 
-          <Typography variant="h6">Scout Rankings:</Typography>
-          {player.rankings
-            .sort((a, b) => a.rank - b.rank)
-            .map((r, idx) => (
-              <Typography key={idx} variant="body2">
-                {r.scout}: #{r.rank}
-              </Typography>
-          ))}
-        </CardContent>
-      </Card>
+            {/* Back Face */}
+            <Box className="back">
+              <Typography variant="h5">Stats – {player.name}</Typography>
 
-      <Divider sx={{ my: 4 }} />
+              <ToggleButtonGroup
+                value={statMode}
+                exclusive
+                onChange={(e, newMode) => newMode && setStatMode(newMode)}
+                sx={{ my: 2 }}
+              >
+                <ToggleButton value="perGame">Per Game</ToggleButton>
+                <ToggleButton value="season">Total</ToggleButton>
+              </ToggleButtonGroup>
 
-      <Box>
-        <Typography variant="h6">Scouting Reports</Typography>
-        <TextField
-          label="Write your report"
-          multiline
-          fullWidth
-          variant="outlined"
-          value={newReport}
-          onChange={(e) => setNewReport(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit();
-            }
-          }}
-          InputLabelProps={{ style: { color: '#fff' } }}
-          InputProps={{ style: { color: '#fff' } }}
-          sx={{ mt: 1, backgroundColor: '#333' }}
-        />
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          sx={{
-            mt: 2,
-            bgcolor: '#2196f3',
-            '&:hover': { bgcolor: '#1976d2' }
-          }}
-        >
-          Submit
-        </Button>
+              {stats.length > 0 ? (
+                stats.map(([key, val], i) => (
+                  <Typography key={i}>{key}: {val}</Typography>
+                ))
+              ) : (
+                <Typography>No stats available</Typography>
+              )}
 
-        {scoutingReports.length > 0 && (
-          <Box mt={2}>
-            {scoutingReports.map((report, i) => (
-              <Card key={i} sx={{ my: 1 }}>
-                <CardContent>{report}</CardContent>
-              </Card>
-            ))}
+              <Button variant="outlined" onClick={() => setFlipped(false)} sx={{ mt: 2 }}>
+                Back to Profile
+              </Button>
+            </Box>
           </Box>
-        )}
+        </Box>
       </Box>
     </div>
   );
