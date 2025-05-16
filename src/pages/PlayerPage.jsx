@@ -6,6 +6,8 @@ import ScoutingForm from '../components/ScoutingForm';
 import CombineCard from '../components/CombineCard';
 import PlayerCompare from '../components/PlayerCompare';
 import PlayerComparePicker from '../components/PlayerComparePicker';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import {
   Typography,
@@ -27,7 +29,15 @@ function PlayerPage() {
   const [showComparePicker, setShowComparePicker] = useState(false);
   const [comparePlayer, setComparePlayer] = useState(null);
 
-  if (!player) return <Typography variant="h6">Player not found</Typography>;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!player) {
+      navigate('/404');
+    }
+  }, [player, navigate]);
+
+  if (!player) return null;
 
   return (
     <div className="page-wrapper">

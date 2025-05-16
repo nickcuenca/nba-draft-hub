@@ -1,0 +1,144 @@
+#root {
+  max-width: none !important;
+  width: 100vw;
+  min-height: 100vh;
+  flex: 1 0 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.big-board-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filters-box {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filters-box .MuiFormControl-root {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 6px;
+}
+
+.filters-box .MuiInputLabel-root {
+  color: #000 !important;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0 4px;
+  transform: translate(14px, -6px) scale(0.75);
+  z-index: 1;
+}
+
+.player-card {
+  width: 100%;
+  max-width: 260px;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.player-avatar {
+  object-fit: cover;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #1e1e1e;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 16px;
+  color: white;
+  background-color: gray;
+  text-transform: uppercase;
+}
+
+.gold-badge {
+  background: gold;
+  color: black;
+  border: 1px solid #c89f00;
+}
+
+.chip-position {
+  background-color: #3f51b5;
+}
+
+.chip-league.ncaa-d-i     { background-color: #1976d2; }
+.chip-league.nbl          { background-color: #f57c00; }
+.chip-league.g-league     { background-color: #388e3c; }
+.chip-league.euroleague,
+.chip-league.others,
+.chip-league.fiba,
+.chip-league.international {
+  background-color: #616161;
+}
+
+.top-10 {
+  border: 2px solid gold;
+  box-shadow:
+    0 0 6px rgba(255, 215, 0, 0.8),
+    0 0 12px rgba(255, 215, 0, 0.6),
+    0 0 24px rgba(255, 215, 0, 0.4);
+  z-index: 1;
+  position: relative;
+}
+
+
+.tier-label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  padding-left: 12px;
+  margin-top: 32px;
+  border-left: 5px solid gold;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.chip-position-pg { background-color: #1976d2; }  /* Blue */
+.chip-position-sg { background-color: #c2185b; }  /* Pink */
+.chip-position-sf { background-color: #7b1fa2; }  /* Purple */
+.chip-position-pf { background-color: #388e3c; }  /* Green */
+.chip-position-c  { background-color: #f57c00; }  /* Orange */
+
+.filters-box .MuiSelect-select            { color: #000; }
+.filters-box .MuiOutlinedInput-notchedOutline { border-color: #aaa; }
+.big-board-grid-wrapper { width: 100%; padding: 0 24px; }
