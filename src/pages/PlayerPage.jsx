@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import playerData from '../data/playerData';
 import StatsTable from '../components/StatsTable';
 import ScoutingForm from '../components/ScoutingForm';
+import CombineCard from '../components/CombineCard';
 
 import {
   Typography,
@@ -18,7 +19,7 @@ function PlayerPage() {
   const { id } = useParams();
   const player = playerData.find((p) => String(p.playerId) === id);
 
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(false); // 'stats' | 'combine' | false
   const [statMode, setStatMode] = useState('perGame');
   const [scoutingReports, setScoutingReports] = useState([]);
 
@@ -54,48 +55,63 @@ function PlayerPage() {
 
               <Divider sx={{ my: 2 }} />
               <Typography variant="h6">Scout Rankings:</Typography>
+              {(() => {
+                const ranks = player.rankings.map(r => r.rank);
+                const min = Math.min(...ranks);
+                const max = Math.max(...ranks);
 
-            {(() => {
-            const ranks = player.rankings.map(r => r.rank);
-            const min = Math.min(...ranks);
-            const max = Math.max(...ranks);
+                return player.rankings.map((r, i) => {
+                  const isHigh = r.rank === min;
+                  const isLow = r.rank === max;
 
-            return player.rankings.map((r, i) => {
-                const isHigh = r.rank === min;
-                const isLow = r.rank === max;
+                  return (
+                    <Typography
+                      key={i}
+                      sx={{
+                        fontWeight: isHigh ? 'bold' : isLow ? 300 : 400,
+                        color: isHigh ? 'green' : isLow ? 'red' : 'inherit'
+                      }}
+                    >
+                      {r.scout}: #{r.rank}
+                    </Typography>
+                  );
+                });
+              })()}
 
-                return (
-                <Typography
-                    key={i}
-                    sx={{
-                    fontWeight: isHigh ? 'bold' : isLow ? 300 : 400,
-                    color: isHigh ? 'green' : isLow ? 'red' : 'inherit'
-                    }}
-                >
-                    {r.scout}: #{r.rank}
-                </Typography>
-                );
-            });
-            })()}
-
-
-              <Button variant="outlined" onClick={() => setFlipped(true)} sx={{ mt: 2 }}>
-                View Stats
-              </Button>
+              <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                <Button variant="outlined" onClick={() => setFlipped('stats')}>
+                  View Stats
+                </Button>
+                <Button variant="outlined" onClick={() => setFlipped('combine')}>
+                  View Physicals
+                </Button>
+              </Box>
             </Box>
 
             <Box className="back">
-              <Typography variant="h5">Stats – {player.name}</Typography>
-              <ToggleButtonGroup
-                value={statMode}
-                exclusive
-                onChange={(e, newMode) => newMode && setStatMode(newMode)}
-                sx={{ my: 2 }}
-              >
-                <ToggleButton value="perGame">Per Game</ToggleButton>
-                <ToggleButton value="season">Total</ToggleButton>
-              </ToggleButtonGroup>
-              <StatsTable stats={player.seasonStats} mode={statMode} />
+              <Typography variant="h5">
+                {flipped === 'stats' ? `Stats – ${player.name}` : `Physicals – ${player.name}`}
+              </Typography>
+
+              <Divider sx={{ my: 2 }} />
+
+              {flipped === 'stats' ? (
+                <>
+                  <ToggleButtonGroup
+                    value={statMode}
+                    exclusive
+                    onChange={(e, newMode) => newMode && setStatMode(newMode)}
+                    sx={{ my: 2 }}
+                  >
+                    <ToggleButton value="perGame">Per Game</ToggleButton>
+                    <ToggleButton value="season">Total</ToggleButton>
+                  </ToggleButtonGroup>
+                  <StatsTable stats={player.seasonStats} mode={statMode} />
+                </>
+              ) : (
+                <CombineCard player={player} />
+              )}
+
               <Button variant="outlined" onClick={() => setFlipped(false)} sx={{ mt: 4, mb: 4 }}>
                 Back to Profile
               </Button>
