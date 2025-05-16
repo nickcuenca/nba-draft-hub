@@ -1,0 +1,20 @@
+.scouting-box {
+    width: 300px;
+    position: absolute;
+    top: 35%;
+    right: 2%;
+  }
+  
+  
+  .scouting-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    resize: none;
+    box-sizing: border-box;
+  }  
