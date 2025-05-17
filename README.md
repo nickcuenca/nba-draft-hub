@@ -36,7 +36,7 @@ npm run dev
 
 ## 🌐 Deployment
 
-Will be deployed on [Netlify](https://netlify.com). Final links submitted via the Mavericks Google Form.
+Deployed on [Netlify](https://cuenca-nba-draft-hub.netlify.app/). Final links submitted via the Mavericks Google Form.
 
 ## 👤 Author
 
