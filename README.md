@@ -1,29 +1,33 @@
 # 🏀 NBA Draft Hub – Dallas Mavericks SWE Intern Project
 
-A React-based frontend application built for the Dallas Mavericks SWE Internship Online Assessment. This Draft Hub is designed for Front Office decision-makers to view, evaluate, and add scouting notes on top NBA draft prospects.
+A React + Vite frontend built for the Dallas Mavericks SWE Internship OA. This Draft Hub enables the Front Office to evaluate top NBA draft prospects, add scouting notes, compare players, and watch highlight videos—all in a data-driven, visually interactive hub.
 
 ## 🚀 Features
 
-- 📋 **Big Board**: Displays players in order of consensus scout rankings.
-- 👤 **Player Profiles**: Detailed views for each player with bio + scouting breakdown.
-- 🧠 **Scouting Reports**: Add your own notes on each player (saved using `useState`).
-- 🎨 **Material UI**: Clean, responsive UI using MUI components.
-- 🔍 **Data Driven**: Automatically adapts to changes in provided JSON data.
-- 🧪 **Input Filter**: Switch between different data views dynamically.
+- 📋 **Big Board View**: Displays all draft prospects by averaged scout ranking or filtered by individual scouts, league, or position.
+- 👤 **Player Profiles**: Rich profile page with team info, league, birth date (with age), height/weight, and more.
+- 🧠 **Scouting Reports**: Add personal notes per player using a local `useState`-based form.
+- 🔍 **Search + Filters**: Filter by league, position, scout rank, or search by name.
+- 📊 **Player Comparison**: Side-by-side stat and physical comparisons with visual highlights for strengths.
+- 🎥 **Highlight Videos**: Embedded YouTube highlight videos for many players with fullscreen viewing.
+- 🎨 **Material UI Styling**: Responsive UI using MUI components with white-on-dark themed layout.
+- 🧪 **Mobile-Responsive + Animations**: Fully responsive design with hover/flip animations and smooth navigation.
+- 📤 **CSV Export**: Export current Big Board view to a CSV file.
+- 🧠 **Data-Driven Architecture**: Automatically adapts to any provided JSON dataset.
 
 ## 🛠️ Tech Stack
 
-- **React** + **Vite**
-- **Material UI** for UI components
-- **React Router** for navigation
-- **useState/useEffect** for state management
-- **Deployed on Netlify**
+- ⚛️ **React + Vite**
+- 🎨 **Material UI**
+- 🧭 **React Router**
+- ⚙️ **useState, useEffect, useParams**
+- 🚀 **Deployed on Netlify**
 
-## 📂 Data Source
+## 📂 Data
 
-All player and scout data is loaded from a local `intern_project_data.json` file located in the `/data` folder.
+All player and scout data comes from `intern_project_data.json` in the `/data` directory. Player positions were inferred and added manually.
 
-## 🧪 Getting Started (Local)
+## 🧪 Local Development
 
 ```bash
 npm install
@@ -32,8 +36,8 @@ npm run dev
 
 ## 🌐 Deployment
 
-Will beployed on [Netlify](https://netlify.com) — see the deployed link and GitHub repo in the submission form.
+Will be deployed on [Netlify](https://netlify.com). Final links submitted via the Mavericks Google Form.
 
 ## 👤 Author
 
-Nicolás Cuenca – 2025 SWE Internship Candidate
+Nicolás Cuenca – 2025 Software Engineering Internship Candidate

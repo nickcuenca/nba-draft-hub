@@ -3,10 +3,9 @@
     position: absolute;
     top: 5%;
     right: 10%;
-  }
+}
   
-  
-  .scouting-textarea {
+.scouting-textarea {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
@@ -17,4 +16,4 @@
     color: #fff;
     resize: none;
     box-sizing: border-box;
-  }  
+}  
