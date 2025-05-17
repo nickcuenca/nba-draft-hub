@@ -1,5 +1,6 @@
 .page-wrapper {
   display: flex;
+  -webkit-overflow-scrolling: touch;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
@@ -9,6 +10,13 @@
   margin-bottom: 10px;
   padding: 60px 0 80px;
   overflow-y: auto;
+}
+
+.app-footer {
+  background: transparent;
+  text-align: center;
+  padding: 24px 0;
+  width: 100%;
 }
 
 .player-bg-video {
@@ -34,7 +42,6 @@
   justify-content: center;
 }
 
-/* 🃏 Flip Card Layout */
 .flip-container {
   width: 500px;
   margin-top: 10px;
@@ -100,5 +107,25 @@
 
   .flip-container {
     width: 90%;
+    margin-top: 0;
+  }
+
+  .flip-wrapper {
+    min-height: 520px;
+  }
+
+  .front, .back {
+    padding: 16px;
+    font-size: 0.95rem;
+  }
+
+  .player-image {
+    width: 120px;
+    height: 160px;
+  }
+
+  .MuiToggleButtonGroup-root {
+    justify-content: center;
+    width: 100%;
   }
 }

@@ -9,23 +9,50 @@
 
 .big-board-wrapper {
   width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat;
+  padding: 40px 0;
+}
+
+.big-board-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.app-footer {
+  background: transparent;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.top-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 300px;
 }
 
 .title-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .filters-box {
   display: flex;
-  gap: 24px;
-  margin-bottom: 32px;
   flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 0;
 }
 
 .filters-box .MuiFormControl-root {
@@ -40,6 +67,14 @@
   padding: 0 4px;
   transform: translate(14px, -6px) scale(0.75);
   z-index: 1;
+}
+
+.top-right {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  margin-top: 48px;
 }
 
 .player-card {
@@ -112,7 +147,6 @@
   position: relative;
 }
 
-
 .tier-label {
   font-weight: bold;
   font-size: 1.2rem;
@@ -133,12 +167,64 @@
   }
 }
 
-.chip-position-pg { background-color: #1976d2; }  /* Blue */
-.chip-position-sg { background-color: #c2185b; }  /* Pink */
-.chip-position-sf { background-color: #7b1fa2; }  /* Purple */
-.chip-position-pf { background-color: #388e3c; }  /* Green */
-.chip-position-c  { background-color: #f57c00; }  /* Orange */
+.chip-position-pg { background-color: #1976d2; }
+.chip-position-sg { background-color: #c2185b; }
+.chip-position-sf { background-color: #7b1fa2; }
+.chip-position-pf { background-color: #388e3c; }
+.chip-position-c  { background-color: #f57c00; }
 
-.filters-box .MuiSelect-select            { color: #000; }
-.filters-box .MuiOutlinedInput-notchedOutline { border-color: #aaa; }
-.big-board-grid-wrapper { width: 100%; padding: 0 24px; }
+.filters-box .MuiSelect-select {
+  color: #000;
+}
+
+.filters-box .MuiOutlinedInput-notchedOutline {
+  border-color: #aaa;
+}
+
+.big-board-grid-wrapper {
+  width: 100%;
+  padding: 0;
+}
+
+/* Responsive mobile layout */
+@media (max-width: 600px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .top-right {
+    margin-top: 0;
+    justify-content: flex-start;
+  }
+
+  .filters-box {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .top-right {
+    align-self: flex-end;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .filters-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-left: 0;
+  }
+
+  .title-bar {
+    margin-left: 0;
+  }
+}

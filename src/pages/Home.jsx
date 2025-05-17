@@ -27,58 +27,56 @@ const positionMap = {
   'Derik Queen': 'C',
   'Jeremiah Fears': 'PG',
   'Khaman Maluach': 'C',
+  'Collin Murray-Boyles ': 'PF',
   'Liam McNeeley': 'SF',
-  'Boogie Fland': 'PG',
-  'Yves Missi': 'C',
-  'Zoom Diallo': 'PG',
-  'Jayden Quaintance': 'C',
-  'Ian Jackson': 'SG',
-  'Jakobe Walter': 'SG',
-  'Carlton Carrington': 'PG',
-  'Zacharie Perrin': 'PF',
-  'Alex Toohey': 'SF',
-  'Zvonimir Ivisic': 'C',
-  'Isaiah Collier': 'PG',
-  'Joan Beringer': 'C',
-  'D.J. Wagner': 'SG',
-  'Omaha Biliew': 'PF',
+  'Egor Demin': 'SG',
+  'Jase Richardson': 'PG',
   'Nolan Traore': 'PG',
-  'Kon Knueppel': 'PG',
-  'Mouhamed Faye': 'PF',
-  'Eric Dailey Jr.': 'SF',
-  'Michael Ruzic': 'SF',
-  'Sergio De Larrea': 'SG',
-  'Bogoljub Markovic': 'PF',
-  'Ben Saraf': 'PG',
-  'Hugo Gonzalez': 'SF',
-  'Ryan Kalkbrenner': 'C',
+  'Joan Beringer': 'C',
+  'Noa Essengue': 'PF',
+  'Asa Newell': 'PF',
   'Danny Wolf': 'C',
-  'Elmarko Jackson': 'PG',
-  'Johann Grunloh': 'C',
-  'Maxime Raynaud': 'C',
-  'Cedric Coward': 'SF',
-  'Yaxel Lendeborg': 'PF',
-  'Joseph Tugler': 'PF',
-  'Chaz Lanier': 'SG',
-  'Kam Jones': 'SG',
-  'Sion James': 'SG',
-  'Tyrese Proctor': 'PG',
+  'Rasheer Fleming': 'PF',
   'Nique Clifford': 'SF',
-  'Tristan da Silva': 'PF',
+  'Carter Bryant': 'SF',
+  'Thomas Sorber': 'C',
+  'Hugo Gonzalez': 'SF',
+  'Drake Powell': 'SG',
+  'Ben Saraf': 'PG',
+  'Will Riley': 'SF',
+  'Noah Penda': 'PF',
+  'Ryan Kalkbrenner': 'C',
+  'Adou Thiero': 'SF',
+  'Alex Condon': 'C',
+  'Alex Karaban': 'SF',
+  'Miles Byrd': 'SG',
+  'Ian Jackson': 'SG',
+  'Maxime Raynaud': 'C',
   'Johni Broome': 'C',
-  'Kel’el Ware': 'C',
-  'Jaxson Robinson': 'SG',
-  'PJ Hall': 'PF',
-  'Kevin McCullar': 'SF',
-  'DaRon Holmes': 'C',
-  'Trevon Brazile': 'PF',
-  'Mark Sears': 'PG',
-  'Reece Beekman': 'PG',
-  'Tamin Lipsey': 'PG',
-  'Pop Isaacs': 'PG',
-  'Tucker DeVries': 'SF',
-  'Caleb Love': 'SG',
-  'Kobe Brea': 'SG'
+  'Sergio De Larrea': 'SG',
+  'Alex Toohey': 'SF',
+  'Tyrese Proctor': 'PG',
+  'Kam Jones': 'SG',
+  'Boogie Fland': 'PG',
+  'Joseph Tugler': 'PF',
+  'Yaxel Lendeborg': 'PF',
+  'Darrion Williams': 'SF',
+  'Chaz Lanier': 'SG',
+  'Eric Dixon': 'C',
+  'Michael Ruzic': 'SF',
+  'Dink Pate': 'PG',
+  'Bogoljub Markovic': 'PF',
+  'Johann Grunloh': 'C',
+  'Isaiah Evans': 'SF',
+  'Rocco Zikarsky': 'C',
+  'Cedric Coward': 'SF',
+  'Sion James': 'SG',
+  'Mouhamed Faye': 'PF',
+  'Zvonimir Ivisic': 'C',
+  'JT Toppin': 'PF',
+  'Hunter Sallis': 'SG',
+  'Koby Brea': 'SG',
+  'Malique Lewis': 'SF'
 };
 
 const positions = [...new Set(Object.values(positionMap))].sort();
@@ -91,15 +89,12 @@ function Home() {
   const [searchText, setSearchText] = useState('');
 
   const leagues = [...new Set(playerData.map(p => p.league).filter(Boolean))].sort();
-  const scouts = ['ESPN', 'Sam Vecenie', 'Kevin O\'Connor', 'Kyle Boone', 'Gary Parrish'];
+  const scouts = ['ESPN', 'Sam Vecenie', "Kevin O'Connor", 'Kyle Boone', 'Gary Parrish'];
 
   const filteredPlayers = playerData
-    .filter(player => selectedLeague ? player.league === selectedLeague : true)
-    .filter(player => player.name.toLowerCase().includes(searchText.toLowerCase()))
-    .filter(player => {
-      const position = positionMap[player.name];
-      return selectedPosition ? position === selectedPosition : true;
-    });
+    .filter(p => (selectedLeague ? p.league === selectedLeague : true))
+    .filter(p => p.name.toLowerCase().includes(searchText.toLowerCase()))
+    .filter(p => (selectedPosition ? positionMap[p.name] === selectedPosition : true));
 
   const sortedPlayers = scoutFilter
     ? [...filteredPlayers].sort((a, b) => {
@@ -108,12 +103,11 @@ function Home() {
         return aRank - bRank;
       })
     : [...filteredPlayers].sort((a, b) => {
-        const avgRank = (p) => {
-          const validRanks = p.rankings.map(r => r.rank).filter(r => typeof r === 'number');
-          const sum = validRanks.reduce((acc, r) => acc + r, 0);
-          return validRanks.length ? sum / validRanks.length : Infinity;
+        const avg = p => {
+          const vals = p.rankings.map(r => r.rank).filter(n => typeof n === 'number');
+          return vals.length ? vals.reduce((s, n) => s + n, 0) / vals.length : Infinity;
         };
-        return avgRank(a) - avgRank(b);
+        return avg(a) - avg(b);
       });
 
   const tiers = [
@@ -124,19 +118,14 @@ function Home() {
   ];
 
   const handleExport = () => {
-    const exportData = sortedPlayers.map((p, i) => ({
+    const rows = sortedPlayers.map((p, i) => ({
       Rank: scoutFilter ? i + 1 : '',
       Name: p.name,
       Team: p.currentTeam,
       League: p.league,
       Position: positionMap[p.name] || 'N/A'
     }));
-
-    const csv = [
-      Object.keys(exportData[0]).join(','),
-      ...exportData.map(obj => Object.values(obj).join(','))
-    ].join('\n');
-
+    const csv = [Object.keys(rows[0]).join(','), ...rows.map(r => Object.values(r).join(','))].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -147,145 +136,95 @@ function Home() {
   };
 
   return (
-    <div className="big-board-wrapper">
-      <Box className="title-bar">
-        <SportsBasketballIcon fontSize="large" sx={{ color: 'orange', mr: 1 }} />
-        <Typography variant="h4">Mavericks Draft Big Board</Typography>
-      </Box>
-
-      <Box className="filters-box">
-        <TextField
-          size="small"
-          label="Search by Name"
-          variant="outlined"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          sx={{ minWidth: 180 }}
-        />
-
-        <FormControl size="small">
-          <InputLabel>Filter by League</InputLabel>
-          <Select
-            value={selectedLeague}
-            label="Filter by League"
-            onChange={(e) => setSelectedLeague(e.target.value)}
-            sx={{ minWidth: 150 }}
-          >
-            <MenuItem value="">All</MenuItem>
-            {leagues.map(league => (
-              <MenuItem key={league} value={league}>{league}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl size="small">
-          <InputLabel>Filter by Position</InputLabel>
-          <Select
-            value={selectedPosition}
-            label="Filter by Position"
-            onChange={(e) => setSelectedPosition(e.target.value)}
-            sx={{ minWidth: 150 }}
-          >
-            <MenuItem value="">All</MenuItem>
-            {positions.map(pos => (
-              <MenuItem key={pos} value={pos}>{pos}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl size="small">
-          <InputLabel>Sort by Scout Rank</InputLabel>
-          <Select
-            value={scoutFilter}
-            label="Sort by Scout Rank"
-            onChange={(e) => setScoutFilter(e.target.value)}
-            sx={{ minWidth: 170 }}
-          >
-            <MenuItem value="">None</MenuItem>
-            {scouts.map(scout => (
-              <MenuItem key={scout} value={scout}>{scout}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => setShowTiers(!showTiers)}
-        >
-          {showTiers ? 'Show as Flat List' : 'Show by Tier'}
-        </Button>
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleExport}
-        >
-          Export CSV
-        </Button>
-      </Box>
-
-      <Typography variant="subtitle1" sx={{ mb: 2, pl: 1, color: 'white' }}>
-        Showing {sortedPlayers.length} Player{sortedPlayers.length !== 1 ? 's' : ''}
-      </Typography>
-
-      <div className="big-board-grid-wrapper">
-        <Grid container spacing={2}>
-          {showTiers
-            ? tiers.map(({ label, range }) => {
-                const tierPlayers = sortedPlayers.slice(range[0], range[1] + 1);
-                if (tierPlayers.length === 0) return null;
-
-                return (
-                  <React.Fragment key={label}>
-                    <Typography variant="h6" className="tier-label" sx={{ width: '100%', mt: 4, mb: 2 }}>
-                      {label}
-                    </Typography>
-
-                    {tierPlayers.map((player, index) => (
-                      <Grid
-                        item
-                        key={player.playerId}
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
-                        xl={2.4}
-                        display="flex"
-                        justifyContent="center"
-                      >
-                        <BigBoardCard
-                          player={{ ...player, position: positionMap[player.name] || 'N/A' }}
-                          rank={scoutFilter ? range[0] + index + 1 : index + 1}
-                          isTop10={range[0] + index < 10}
-                        />
-                      </Grid>
+    <>
+      <div className="big-board-wrapper">
+        <div className="big-board-inner">
+          <div className="top-bar">
+            <Box className="top-left">
+              <Box className="title-bar">
+                <SportsBasketballIcon fontSize="large" sx={{ color: 'orange', mr: 1 }} />
+                <Typography variant="h4">Mavericks Draft Big Board</Typography>
+              </Box>
+              <Box className="filters-box">
+                <TextField
+                  size="small"
+                  label="Search by Name"
+                  variant="outlined"
+                  value={searchText}
+                  onChange={e => setSearchText(e.target.value)}
+                  sx={{ minWidth: 180 }}
+                />
+                <FormControl size="small">
+                  <InputLabel>Filter by League</InputLabel>
+                  <Select value={selectedLeague} label="Filter by League" onChange={e => setSelectedLeague(e.target.value)} sx={{ minWidth: 150 }}>
+                    <MenuItem value="">All</MenuItem>
+                    {leagues.map(l => (
+                      <MenuItem key={l} value={l}>{l}</MenuItem>
                     ))}
-                  </React.Fragment>
-                );
-              })
-            : sortedPlayers.map((player, index) => (
-                <Grid
-                  item
-                  key={player.playerId}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  xl={2.4}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <BigBoardCard
-                    player={{ ...player, position: positionMap[player.name] || 'N/A' }}
-                    rank={index + 1}
-                    isTop10={index < 10}
-                  />
-                </Grid>
-              ))}
-        </Grid>
+                  </Select>
+                </FormControl>
+                <FormControl size="small">
+                  <InputLabel>Filter by Position</InputLabel>
+                  <Select value={selectedPosition} label="Filter by Position" onChange={e => setSelectedPosition(e.target.value)} sx={{ minWidth: 150 }}>
+                    <MenuItem value="">All</MenuItem>
+                    {positions.map(p => (
+                      <MenuItem key={p} value={p}>{p}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl size="small">
+                  <InputLabel>Sort by Scout Rank</InputLabel>
+                  <Select value={scoutFilter} label="Sort by Scout Rank" onChange={e => setScoutFilter(e.target.value)} sx={{ minWidth: 170 }}>
+                    <MenuItem value="">None</MenuItem>
+                    {scouts.map(s => (
+                      <MenuItem key={s} value={s}>{s}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
+
+            <Box className="top-right">
+              <Button variant="contained" color="secondary" onClick={() => setShowTiers(!showTiers)} sx={{ marginRight: '10px' }}>
+                {showTiers ? 'Show as Flat List' : 'Show by Tier'}
+              </Button>
+              <Button variant="contained" color="primary" onClick={handleExport}>Export CSV</Button>
+            </Box>
+          </div>
+
+          <Typography variant="subtitle1" sx={{ mb: 2, pl: 1, color: 'white' }}>
+            Showing {sortedPlayers.length} Player{sortedPlayers.length !== 1 ? 's' : ''}
+          </Typography>
+        </div>
+
+        <div className="big-board-grid-wrapper">
+          <Grid container spacing={2} justifyContent="center">
+            {(showTiers ? tiers.flatMap(({ label, range }) => {
+              const tierPlayers = sortedPlayers.slice(range[0], range[1] + 1);
+              if (!tierPlayers.length) return [];
+              return [
+                <Typography key={label} variant="h6" className="tier-label" sx={{ width: '100%', mt: 4, mb: 2 }}>{label}</Typography>,
+                ...tierPlayers.map((player, idx) => (
+                  <Grid item key={player.playerId} xs={12} sm={6} md={4} lg={3} xl={2.4} display="flex" justifyContent="center">
+                    <BigBoardCard player={{ ...player, position: positionMap[player.name] || 'N/A' }} rank={range[0] + idx + 1} isTop10={range[0] + idx < 10} />
+                  </Grid>
+                ))
+              ];
+            }) : sortedPlayers.map((player, index) => (
+              <Grid item key={player.playerId} xs={12} sm={6} md={4} lg={3} xl={2.4} display="flex" justifyContent="center">
+                <BigBoardCard player={{ ...player, position: positionMap[player.name] || 'N/A' }} rank={index + 1} isTop10={index < 10} />
+              </Grid>
+            )))}
+          </Grid>
+        </div>
       </div>
-    </div>
+
+      <Box className="app-footer">
+        <Typography variant="body2" color="white" align="center" sx={{ py: 2 }}>
+          © {new Date().getFullYear()} Nicolas Cuenca — Built for the Dallas Mavericks
+        </Typography>
+      </Box>
+    </>
   );
 }
 

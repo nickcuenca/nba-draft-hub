@@ -41,6 +41,7 @@ function PlayerPage() {
     'Khaman Maluach': 'https://www.youtube.com/embed/c6bBzX6A_eU?si=W7N-agIFa5zIXzuT',
     'Collin Murray-Boyles ': 'https://www.youtube.com/embed/GY9szNsoAwQ?si=eucHYrCsWPoCkRoI',
     'Liam McNeeley': 'https://www.youtube.com/embed/NnvX217_QGw?si=UYC5FL2bpz4FW_w1',
+    'Egor Demin': 'https://www.youtube.com/embed/Lg4t4jWulz0?si=clB1QeZUI-qBr_3M',
     'Jase Richardson': 'https://www.youtube.com/embed/7W-eAtOR5dY?si=JhmUgWb5DSWUiCT6',
     'Nolan Traore': 'https://www.youtube.com/embed/1aaaDQgeZPw?si=SA_zZp_5w-VxWxFb',
     'Joan Beringer': 'https://www.youtube.com/embed/wTIycEHA9tg?si=tGLVqxqDCOOYmho-',
@@ -325,8 +326,12 @@ function PlayerPage() {
           scoutingReports={scoutingReports}
           setScoutingReports={setScoutingReports}
         />
+
+        
       )}
     </div>
+
+    
   );
 }
 
