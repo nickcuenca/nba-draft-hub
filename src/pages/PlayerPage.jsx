@@ -28,6 +28,22 @@ function getAge(birthDateString) {
 }
 
 function PlayerPage() {
+  const { id } = useParams();
+  const player = playerData.find((p) => String(p.playerId) === id);
+  const [flipped, setFlipped] = useState(false);
+  const [statMode, setStatMode] = useState('perGame');
+  const [scoutingReports, setScoutingReports] = useState([]);
+  const [showComparePicker, setShowComparePicker] = useState(false);
+  const [comparePlayer, setComparePlayer] = useState(null);
+  const [showHighlights, setShowHighlights] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!player) navigate('/404');
+  }, [player, navigate]);
+
+  if (!player) return null;
+
   const highlightMap = {
     'Cooper Flagg': 'https://www.youtube.com/embed/edzezIWDCUs?si=i8NJBdKBU5-kvEfK',
     'Dylan Harper': 'https://www.youtube.com/embed/Mrgn1JyqLoE?si=Pbh6aDxnESCN_Ixg',
@@ -91,24 +107,8 @@ function PlayerPage() {
     'Malique Lewis': 'https://www.youtube.com/embed/VPXOMbtf3g8?si=WPAvKFCbg8Lcfd3R'
   };
 
-  const { id } = useParams();
-  const player = playerData.find((p) => String(p.playerId) === id);
-  const [flipped, setFlipped] = useState(false);
-  const [statMode, setStatMode] = useState('perGame');
-  const [scoutingReports, setScoutingReports] = useState([]);
-  const [showComparePicker, setShowComparePicker] = useState(false);
-  const [comparePlayer, setComparePlayer] = useState(null);
-  const [showHighlights, setShowHighlights] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!player) navigate('/404');
-  }, [player, navigate]);
-
-  if (!player) return null;
-
   return (
-    <div className="page-wrapper">
+    <Box className="page-wrapper">
       {!showHighlights && (
         <Box sx={{
           position: 'absolute',
@@ -122,12 +122,7 @@ function PlayerPage() {
         }}>
           <Link
             to="/"
-            style={{
-              textDecoration: 'none',
-              color: 'black',
-              fontWeight: 600,
-              fontSize: '14px'
-            }}
+            style={{ textDecoration: 'none', color: 'black', fontWeight: 600, fontSize: '14px' }}
           >
             ← Back to Big Board
           </Link>
@@ -152,7 +147,6 @@ function PlayerPage() {
             }}
           />
 
-          {/* Back to Big Board */}
           <Box sx={{
             position: 'absolute',
             top: 20,
@@ -165,18 +159,12 @@ function PlayerPage() {
           }}>
             <Link
               to="/"
-              style={{
-                textDecoration: 'none',
-                color: 'black',
-                fontWeight: 600,
-                fontSize: '14px'
-              }}
+              style={{ textDecoration: 'none', color: 'black', fontWeight: 600, fontSize: '14px' }}
             >
               ← Back to Big Board
             </Link>
           </Box>
 
-          {/* Back to Card */}
           <Button
             variant="contained"
             sx={{
@@ -187,9 +175,7 @@ function PlayerPage() {
               backgroundColor: '#ffffff',
               color: '#000',
               fontWeight: 600,
-              '&:hover': {
-                backgroundColor: '#f0f0f0'
-              }
+              '&:hover': { backgroundColor: '#f0f0f0' }
             }}
             onClick={() => setShowHighlights(false)}
           >
@@ -197,109 +183,127 @@ function PlayerPage() {
           </Button>
         </Box>
       ) : !comparePlayer ? (
-        <Box className={`flip-container ${flipped ? 'flipped' : ''}`}>
-          <Box className="flip-wrapper">
-            <Box className="flipper">
-              <Box className="front">
-                <img
-                  src={player.photoUrl || 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp'}
-                  alt={player.name}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp';
-                  }}
-                  className="player-image"
-                />
-                <Typography variant="h4" align="center">{player.name}</Typography>
+        <div className="player-content-wrapper">
+          <Box className={`flip-container ${flipped ? 'flipped' : ''}`}>
+            <Box className="flip-wrapper">
+              <Box className="flipper">
+                <Box className="front">
+                  <img
+                    src={player.photoUrl || 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp'}
+                    alt={player.name}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp';
+                    }}
+                    className="player-image"
+                  />
+                  <Typography variant="h4" align="center">{player.name}</Typography>
 
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
-                  <Button variant="contained" color="secondary" onClick={() => setShowComparePicker(true)}>
-                    Compare to Another Player
-                  </Button>
-                  {highlightMap[player.name] && (
-                    <Button variant="contained" color="primary" onClick={() => setShowHighlights(true)}>
-                      Watch Highlights
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
+                    <Button variant="contained" color="secondary" onClick={() => setShowComparePicker(true)}>
+                      Compare to Another Player
                     </Button>
-                  )}
-                </Box>
+                    {highlightMap[player.name] && (
+                      <Button variant="contained" color="primary" onClick={() => setShowHighlights(true)}>
+                        Watch Highlights
+                      </Button>
+                    )}
+                  </Box>
 
-                <Box sx={{ mt: 2 }}>
-                  <Typography>Team: {player.currentTeam}</Typography>
-                  <Typography>League: {player.league}</Typography>
-                  {player.highSchool && <Typography>High School: {player.highSchool}</Typography>}
-                  <Typography>
-                    Birth Date: {player.birthDate} (Age: {getAge(player.birthDate)})
-                  </Typography>
-                  <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
-                  <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
-                </Box>
-                
+                  <Box sx={{ mt: 2 }}>
+                    <Typography>Team: {player.currentTeam}</Typography>
+                    <Typography>League: {player.league}</Typography>
+                    {player.highSchool && <Typography>High School: {player.highSchool}</Typography>}
+                    <Typography>Birth Date: {player.birthDate} (Age: {getAge(player.birthDate)})</Typography>
+                    <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
+                    <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
+                  </Box>
 
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h6">Scout Rankings:</Typography>
-                {(() => {
-                  const ranks = player.rankings.map(r => r.rank);
-                  const min = Math.min(...ranks);
-                  const max = Math.max(...ranks);
+                  <Divider sx={{ my: 2 }} />
+                  <Typography variant="h6">Scout Rankings:</Typography>
+                  {(() => {
+                    const ranks = player.rankings.map(r => r.rank);
+                    const min = Math.min(...ranks);
+                    const max = Math.max(...ranks);
 
-                  return player.rankings.map((r, i) => {
-                    const isHigh = r.rank === min;
-                    const isLow = r.rank === max;
-                    return (
+                    return player.rankings.map((r, i) => (
                       <Typography
                         key={i}
                         sx={{
-                          fontWeight: isHigh ? 'bold' : isLow ? 300 : 400,
-                          color: isHigh ? 'green' : isLow ? 'red' : 'inherit'
+                          fontWeight: r.rank === min ? 'bold' : r.rank === max ? 300 : 400,
+                          color: r.rank === min ? 'green' : r.rank === max ? 'red' : 'inherit'
                         }}
                       >
                         {r.scout}: #{r.rank}
                       </Typography>
-                    );
-                  });
-                })()}
+                    ));
+                  })()}
 
-                <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-                  <Button variant="outlined" onClick={() => setFlipped('stats')}>
-                    View Stats
-                  </Button>
-                  <Button variant="outlined" onClick={() => setFlipped('combine')}>
-                    View Physicals
+                  <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                    <Button variant="outlined" onClick={() => setFlipped('stats')}>View Stats</Button>
+                    <Button variant="outlined" onClick={() => setFlipped('combine')}>View Physicals</Button>
+                  </Box>
+                </Box>
+
+                <Box className="back">
+                  <Typography variant="h5">
+                    {flipped === 'stats' ? `Stats – ${player.name}` : `Physicals – ${player.name}`}
+                  </Typography>
+
+                  <Divider sx={{ my: 2 }} />
+
+                  {flipped === 'stats' ? (
+                    <>
+                      
+                      <ToggleButtonGroup
+                          value={statMode}
+                          exclusive
+                          onChange={(e, mode) => mode && setStatMode(mode)}
+                          sx={{
+                            '& .MuiToggleButton-root': {
+                              backgroundColor: '#ffffff',
+                              color: '#000000',
+                              border: '1px solid #ccc',
+                              fontWeight: 600,
+                              textTransform: 'none',
+                              '&:hover': { backgroundColor: '#f5f5f5' },
+                            },
+                            '& .MuiToggleButton-root.Mui-selected': {
+                              backgroundColor: '#1976d2 !important',
+                              color: '#ffffff !important',
+                              borderColor: '#1976d2',
+                              '&:hover': { backgroundColor: '#1565c0 !important' },
+                            },
+                          }}
+                        >
+                          <ToggleButton value="perGame">PER&nbsp;GAME</ToggleButton>
+                          <ToggleButton value="season">SEASON&nbsp;TOTALS</ToggleButton>
+                      </ToggleButtonGroup>
+
+
+                      <StatsTable stats={player.seasonStats} mode={statMode} />
+                    </>
+                  ) : (
+                    <CombineCard player={player} />
+                  )}
+
+                  <Button variant="outlined" onClick={() => setFlipped(false)} sx={{ mt: 4 }}>
+                    Back to Profile
                   </Button>
                 </Box>
               </Box>
-
-              <Box className="back">
-                <Typography variant="h5">
-                  {flipped === 'stats' ? `Stats – ${player.name}` : `Physicals – ${player.name}`}
-                </Typography>
-
-                <Divider sx={{ my: 2 }} />
-
-                {flipped === 'stats' ? (
-                  <>
-                    <ToggleButtonGroup
-                      value={statMode}
-                      exclusive
-                      onChange={(e, newMode) => newMode && setStatMode(newMode)}
-                      sx={{ my: 2 }}
-                    >
-                      <ToggleButton value="perGame">Per Game</ToggleButton>
-                      <ToggleButton value="season">Total</ToggleButton>
-                    </ToggleButtonGroup>
-                    <StatsTable stats={player.seasonStats} mode={statMode} />
-                  </>
-                ) : (
-                  <CombineCard player={player} />
-                )}
-
-                <Button variant="outlined" onClick={() => setFlipped(false)} sx={{ mt: 4 }}>
-                  Back to Profile
-                </Button>
-              </Box>
             </Box>
           </Box>
-        </Box>
+
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: { xs: 4, md: 2 } }}>
+            <Box sx={{ width: { xs: '90%', md: '500px' } }}>
+              <ScoutingForm
+                scoutingReports={scoutingReports}
+                setScoutingReports={setScoutingReports}
+              />
+            </Box>
+          </Box>
+        </div>
       ) : null}
 
       {comparePlayer && (
@@ -320,18 +324,12 @@ function PlayerPage() {
         players={playerData}
         excludeId={player.playerId}
       />
-
-      {!showHighlights && (
-        <ScoutingForm
-          scoutingReports={scoutingReports}
-          setScoutingReports={setScoutingReports}
-        />
-
-        
-      )}
-    </div>
-
-    
+        <Box className="app-footer">
+          <Typography variant="body2" color="white" align="center" sx={{ py: 2 }}>
+            © {new Date().getFullYear()} Nicolas Cuenca — Built for the Dallas Mavericks
+          </Typography>
+        </Box>
+      </Box>
   );
 }
 

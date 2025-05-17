@@ -1,22 +1,20 @@
 .page-wrapper {
   display: flex;
-  -webkit-overflow-scrolling: touch;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
   min-height: 100vh;
   width: 100vw;
   background: url('https://dmn-dallas-news-prod.cdn.arcpublishing.com/resizer/v2/MKEXF2RCXBHX3DRFLDFHSULAYM.jpg?auth=f977fb0d94fef1c3d36f35d4cea2f28fcc6efca03c46ee1aa6d154f5124473e6&height=1878&quality=80') center center / cover no-repeat;
   position: relative;
-  margin-bottom: 10px;
-  padding: 60px 0 80px;
-  overflow-y: auto;
+  padding: 60px 0 0;
 }
 
 .app-footer {
-  background: transparent;
+  background: rgba(0, 0, 0, 1);
   text-align: center;
+  color: white;
   padding: 24px 0;
   width: 100%;
+  margin-top: auto;
 }
 
 .player-bg-video {
@@ -128,4 +126,17 @@
     justify-content: center;
     width: 100%;
   }
+}
+
+.player-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 16px;
+  margin: 0 auto;
+  flex: 1;
 }

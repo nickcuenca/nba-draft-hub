@@ -30,34 +30,37 @@ function PlayerCompare({ player1, player2, onBack }) {
       </Typography>
 
       <ToggleButtonGroup
-        value={statMode}
-        exclusive
-        onChange={(e, newMode) => newMode && setStatMode(newMode)}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mb: 4,
-          '& .MuiToggleButton-root': {
-            backgroundColor: 'white',
-            color: '#000',
-            border: '1px solid #ccc',
-            fontWeight: 600,
-            '&:hover': {
-              backgroundColor: '#f5f5f5',
+          value={statMode}
+          exclusive
+          onChange={(e, newMode) => newMode && setStatMode(newMode)}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            mb: 4,
+            '& .MuiToggleButton-root': {
+              backgroundColor: 'white',
+              color: '#000',
+              border: '1px solid #ccc',
+              fontWeight: 600,
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#f5f5f5',
+              },
             },
-          },
-          '& .Mui-selected': {
-            backgroundColor: '#1976d2',
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#1565c0',
+            '& .MuiToggleButton-root.Mui-selected': {
+              backgroundColor: '#1976d2 !important',
+              color: '#fff !important',
+              borderColor: '#1976d2',
+              '&:hover': {
+                backgroundColor: '#1565c0 !important',
+              },
             },
-          },
-        }}
+          }}
         >
-          <ToggleButton value="perGame">PER GAME</ToggleButton>
-          <ToggleButton value="season">SEASON TOTALS</ToggleButton>
+        <ToggleButton value="perGame">PER GAME</ToggleButton>
+        <ToggleButton value="season">SEASON TOTALS</ToggleButton>
       </ToggleButtonGroup>
+
 
 
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 4, flexWrap: 'wrap' }}>
