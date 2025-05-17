@@ -73,7 +73,9 @@
   backface-visibility: hidden;
   background: white;
   border-radius: 12px;
+  max-height: 80vh;
   color: black;
+  overflow-y: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   box-sizing: border-box;

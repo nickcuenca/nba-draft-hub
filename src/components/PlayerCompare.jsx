@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, ToggleButtonGroup, ToggleButton, Button } from '@mui/material';
 import StatsTable from './StatsTable';
+import positionMap from '../data/positionMap';
 
 function PlayerCompare({ player1, player2, onBack }) {
   const [statMode, setStatMode] = useState('perGame');
@@ -62,7 +63,6 @@ function PlayerCompare({ player1, player2, onBack }) {
       </ToggleButtonGroup>
 
 
-
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 4, flexWrap: 'wrap' }}>
         {[player1, player2].map((player, index) => (
           <Box
@@ -91,6 +91,9 @@ function PlayerCompare({ player1, player2, onBack }) {
             <Typography variant="h5">{player.name}</Typography>
             <Typography variant="body2">{player.currentTeam}</Typography>
             <Typography variant="body2">{player.league}</Typography>
+            <Typography variant="body2">
+              Position: {positionMap[player.name?.trim()] || 'N/A'}
+            </Typography>
             <Typography variant="body2">{player.height}" • {player.weight} lbs</Typography>
 
             <Box sx={{ mt: 2 }}>

@@ -254,38 +254,37 @@ function PlayerPage() {
 
                   {flipped === 'stats' ? (
                     <>
-                      
                       <ToggleButtonGroup
-                          value={statMode}
-                          exclusive
-                          onChange={(e, mode) => mode && setStatMode(mode)}
-                          sx={{
-                            '& .MuiToggleButton-root': {
-                              backgroundColor: '#ffffff',
-                              color: '#000000',
-                              border: '1px solid #ccc',
-                              fontWeight: 600,
-                              textTransform: 'none',
-                              '&:hover': { backgroundColor: '#f5f5f5' },
-                            },
-                            '& .MuiToggleButton-root.Mui-selected': {
-                              backgroundColor: '#1976d2 !important',
-                              color: '#ffffff !important',
-                              borderColor: '#1976d2',
-                              '&:hover': { backgroundColor: '#1565c0 !important' },
-                            },
-                          }}
-                        >
-                          <ToggleButton value="perGame">PER&nbsp;GAME</ToggleButton>
-                          <ToggleButton value="season">SEASON&nbsp;TOTALS</ToggleButton>
+                        value={statMode}
+                        exclusive
+                        onChange={(e, mode) => mode && setStatMode(mode)}
+                        sx={{
+                          '& .MuiToggleButton-root': {
+                            backgroundColor: '#ffffff',
+                            color: '#000000',
+                            border: '1px solid #ccc',
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            '&:hover': { backgroundColor: '#f5f5f5' },
+                          },
+                          '& .MuiToggleButton-root.Mui-selected': {
+                            backgroundColor: '#1976d2 !important',
+                            color: '#ffffff !important',
+                            borderColor: '#1976d2',
+                            '&:hover': { backgroundColor: '#1565c0 !important' },
+                          },
+                        }}
+                      >
+                        <ToggleButton value="perGame">PER&nbsp;GAME</ToggleButton>
+                        <ToggleButton value="season">SEASON&nbsp;TOTALS</ToggleButton>
                       </ToggleButtonGroup>
-
 
                       <StatsTable stats={player.seasonStats} mode={statMode} />
                     </>
                   ) : (
                     <CombineCard player={player} />
                   )}
+
 
                   <Button variant="outlined" onClick={() => setFlipped(false)} sx={{ mt: 4 }}>
                     Back to Profile

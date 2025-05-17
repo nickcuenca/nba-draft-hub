@@ -20,7 +20,7 @@ function StatsTable({ stats, mode, compareTo = null }) {
     <Typography>No stats found.</Typography>
   ) : (
     <>
-      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+      <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
         {mode === 'perGame' ? 'Per Game Stats' : 'Season Totals'}
       </Typography>
       <TableContainer component={Paper} sx={{ backgroundColor: '#f9f9f9' }}>
