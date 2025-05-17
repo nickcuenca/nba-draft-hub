@@ -16,6 +16,17 @@ import {
 } from '@mui/material';
 import './PlayerPage.css';
 
+function getAge(birthDateString) {
+  const today = new Date();
+  const birthDate = new Date(birthDateString);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
 function PlayerPage() {
   const highlightMap = {
     'Cooper Flagg': 'https://www.youtube.com/embed/edzezIWDCUs?si=i8NJBdKBU5-kvEfK',
@@ -201,29 +212,27 @@ function PlayerPage() {
                 <Typography variant="h4" align="center">{player.name}</Typography>
 
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => setShowComparePicker(true)}
-                  >
+                  <Button variant="contained" color="secondary" onClick={() => setShowComparePicker(true)}>
                     Compare to Another Player
                   </Button>
                   {highlightMap[player.name] && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => setShowHighlights(true)}
-                    >
+                    <Button variant="contained" color="primary" onClick={() => setShowHighlights(true)}>
                       Watch Highlights
                     </Button>
                   )}
                 </Box>
 
-                <Typography>Team: {player.currentTeam}</Typography>
-                <Typography>League: {player.league}</Typography>
-                <Typography>Birth Date: {player.birthDate}</Typography>
-                <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
-                <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
+                <Box sx={{ mt: 2 }}>
+                  <Typography>Team: {player.currentTeam}</Typography>
+                  <Typography>League: {player.league}</Typography>
+                  {player.highSchool && <Typography>High School: {player.highSchool}</Typography>}
+                  <Typography>
+                    Birth Date: {player.birthDate} (Age: {getAge(player.birthDate)})
+                  </Typography>
+                  <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
+                  <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
+                </Box>
+                
 
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6">Scout Rankings:</Typography>

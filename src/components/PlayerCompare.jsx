@@ -1,9 +1,27 @@
 import React, { useState } from 'react';
-import { Box, Typography, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box, Typography, ToggleButtonGroup, ToggleButton, Button } from '@mui/material';
 import StatsTable from './StatsTable';
 
 function PlayerCompare({ player1, player2, onBack }) {
   const [statMode, setStatMode] = useState('perGame');
+
+  const format = (label, val, unit) => val ? `${val}${unit}` : 'N/A';
+
+  const comparePhysicals = [
+    ['Wingspan', 'wingspan', '"', true],
+    ['Max Vertical', 'maxVertical', ' in', true],
+    ['Sprint', 'sprint', ' s', false], // Lower is better
+    ['Agility', 'agility', ' s', false],
+    ['Reach', 'reach', '"', true],
+    ['Hand Length', 'handLength', ' in', true],
+    ['Hand Width', 'handWidth', ' in', true]
+  ];
+
+  const getColor = (v1, v2, higherIsBetter) => {
+    if (v1 == null || v2 == null) return 'inherit';
+    const better = higherIsBetter ? v1 > v2 : v1 < v2;
+    return better ? 'green' : 'red';
+  };
 
   return (
     <Box sx={{ padding: 4, textAlign: 'center' }}>
@@ -20,8 +38,13 @@ function PlayerCompare({ player1, player2, onBack }) {
           justifyContent: 'center',
           mb: 4,
           '& .MuiToggleButton-root': {
-            color: 'white',
-            borderColor: 'gray',
+            backgroundColor: 'white',
+            color: '#000',
+            border: '1px solid #ccc',
+            fontWeight: 600,
+            '&:hover': {
+              backgroundColor: '#f5f5f5',
+            },
           },
           '& .Mui-selected': {
             backgroundColor: '#1976d2',
@@ -31,11 +54,11 @@ function PlayerCompare({ player1, player2, onBack }) {
             },
           },
         }}
-        color="primary"
-      >
-        <ToggleButton value="perGame">PER GAME</ToggleButton>
-        <ToggleButton value="season">SEASON TOTALS</ToggleButton>
+        >
+          <ToggleButton value="perGame">PER GAME</ToggleButton>
+          <ToggleButton value="season">SEASON TOTALS</ToggleButton>
       </ToggleButtonGroup>
+
 
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 4, flexWrap: 'wrap' }}>
         {[player1, player2].map((player, index) => (
@@ -74,12 +97,39 @@ function PlayerCompare({ player1, player2, onBack }) {
                 compareTo={index === 0 ? player2 : player1}
               />
             </Box>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" sx={{ mb: 1 }}>Physicals</Typography>
+              {comparePhysicals.map(([label, key, unit, higherIsBetter]) => {
+                const val = player.combine?.[key];
+                const other = (index === 0 ? player2 : player1).combine?.[key];
+                const color = getColor(val, other, higherIsBetter);
+                return (
+                  <Typography key={key} sx={{ color, fontSize: '0.95rem' }}>
+                    <strong>{label}:</strong> {val ? `${val}${unit}` : 'N/A'}
+                  </Typography>
+                );
+              })}
+            </Box>
           </Box>
         ))}
       </Box>
 
       <Box sx={{ mt: 4 }}>
-        <button onClick={onBack} style={{ marginTop: '20px' }}>Back to Player</button>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#fff',
+            color: '#000',
+            fontWeight: 600,
+            '&:hover': {
+              backgroundColor: '#f0f0f0'
+            }
+          }}
+          onClick={onBack}
+        >
+          Back to Player
+        </Button>
       </Box>
     </Box>
   );
