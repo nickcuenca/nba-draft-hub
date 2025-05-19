@@ -35,7 +35,7 @@ seasonLogs.forEach(entry => {
 
   for (const [key, val] of Object.entries(stats)) {
     if (!excludedKeys.includes(key)) {
-      perGameStats[key] = val;
+      perGameStats[key.toLowerCase()] = val;
     }
   }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Typography, ToggleButtonGroup, ToggleButton, Button } from '@mui/material';
 import StatsTable from './StatsTable';
 import positionMap from '../data/positionMap';
+import PlayerRadarChart from '../components/PlayerRadarChart';
+import CompareRadarChart from './CompareRadarChart';
 
 function PlayerCompare({ player1, player2, onBack }) {
   const [statMode, setStatMode] = useState('perGame');
@@ -62,6 +64,9 @@ function PlayerCompare({ player1, player2, onBack }) {
         <ToggleButton value="season">SEASON TOTALS</ToggleButton>
       </ToggleButtonGroup>
 
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <CompareRadarChart player1={player1} player2={player2} />
+      </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 4, flexWrap: 'wrap' }}>
         {[player1, player2].map((player, index) => (
@@ -97,6 +102,10 @@ function PlayerCompare({ player1, player2, onBack }) {
             <Typography variant="body2">{player.height}" • {player.weight} lbs</Typography>
 
             <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>Stat Overview</Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <PlayerRadarChart stats={player.seasonStats} color={index === 0 ? '#1976d2' : '#d32f2f'} />
+              </Box>
               <StatsTable
                 stats={player.seasonStats}
                 mode={statMode}

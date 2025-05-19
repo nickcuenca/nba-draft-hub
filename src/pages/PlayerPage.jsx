@@ -6,6 +6,7 @@ import ScoutingForm from '../components/ScoutingForm';
 import CombineCard from '../components/CombineCard';
 import PlayerCompare from '../components/PlayerCompare';
 import PlayerComparePicker from '../components/PlayerComparePicker';
+import PlayerRadarChart from '../components/PlayerRadarChart';
 import {
   Typography,
   Button,
@@ -217,6 +218,10 @@ function PlayerPage() {
                     <Typography>Birth Date: {player.birthDate} (Age: {getAge(player.birthDate)})</Typography>
                     <Typography>Hometown: {player.homeTown}, {player.homeCountry}</Typography>
                     <Typography>Height: {player.height}" • Weight: {player.weight} lbs</Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                    <PlayerRadarChart stats={player.seasonStats} />
                   </Box>
 
                   <Divider sx={{ my: 2 }} />
