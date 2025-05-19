@@ -65,7 +65,7 @@ function PlayerCompare({ player1, player2, onBack }) {
       </ToggleButtonGroup>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-        <CompareRadarChart player1={player1} player2={player2} />
+        <CompareRadarChart player1={player1} player2={player2} statMode={statMode}/>
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 4, flexWrap: 'wrap' }}>
@@ -104,7 +104,8 @@ function PlayerCompare({ player1, player2, onBack }) {
             <Box sx={{ mt: 2 }}>
               <Typography variant="subtitle2" sx={{ mb: 1 }}>Stat Overview</Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <PlayerRadarChart stats={player.seasonStats} color={index === 0 ? '#1976d2' : '#d32f2f'} />
+                <PlayerRadarChart stats={player.seasonStats?.[statMode]} color={index === 0 ? '#1976d2' : '#d32f2f'} mode={statMode} />
+
               </Box>
               <StatsTable
                 stats={player.seasonStats}

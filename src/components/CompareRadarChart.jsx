@@ -2,7 +2,7 @@ import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
 } from 'recharts';
 
-function CompareRadarChart({ player1, player2 }) {
+function CompareRadarChart({ player1, player2, statMode = 'perGame' }) {
   const keys = [
     ['PTS', 'pts'],
     ['AST', 'ast'],
@@ -11,8 +11,8 @@ function CompareRadarChart({ player1, player2 }) {
     ['BLK', 'blk']
   ];
 
-  const stats1 = player1.seasonStats?.perGame || {};
-  const stats2 = player2.seasonStats?.perGame || {};
+  const stats1 = player1.seasonStats?.[statMode] || {};
+  const stats2 = player2.seasonStats?.[statMode] || {};
 
   const data = keys.map(([label, key]) => ({
     stat: label,
@@ -25,7 +25,7 @@ function CompareRadarChart({ player1, player2 }) {
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="stat" />
-        <PolarRadiusAxis angle={30} domain={[0, 30]} />
+        <PolarRadiusAxis angle={30} domain={[0, 'auto']} />
         <Radar name={player1.name} dataKey="p1" stroke="#1976d2" fill="#1976d2" fillOpacity={0.4} />
         <Radar name={player2.name} dataKey="p2" stroke="#d32f2f" fill="#d32f2f" fillOpacity={0.3} />
         <Tooltip />
