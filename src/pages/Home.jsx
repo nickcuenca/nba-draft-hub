@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import {
   Grid,
   Box,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Typography,
-  Button,
-  TextField
+  Button
 } from '@mui/material';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
+import BigBoardFilters from '../components/BigBoardFilters';
+import { exportDraftBoardToCSV } from '../utils/exportCSV';
 import positionMap from '../data/positionMap';
 
 import playerData from '../data/playerData';
@@ -56,21 +53,7 @@ function Home() {
   ];
 
   const handleExport = () => {
-    const rows = sortedPlayers.map((p, i) => ({
-      Rank: scoutFilter ? i + 1 : '',
-      Name: p.name,
-      Team: p.currentTeam,
-      League: p.league,
-      Position: positionMap[p.name] || 'N/A'
-    }));
-    const csv = [Object.keys(rows[0]).join(','), ...rows.map(r => Object.values(r).join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'draft_board.csv';
-    a.click();
-    URL.revokeObjectURL(url);
+    exportDraftBoardToCSV(sortedPlayers, scoutFilter, positionMap);
   };
 
   return (
@@ -84,41 +67,19 @@ function Home() {
                 <Typography variant="h4">Mavericks Draft Big Board</Typography>
               </Box>
               <Box className="filters-box">
-                <TextField
-                  size="small"
-                  label="Search by Name"
-                  variant="outlined"
-                  value={searchText}
-                  onChange={e => setSearchText(e.target.value)}
-                  sx={{ minWidth: 180 }}
+                <BigBoardFilters
+                  leagues={leagues}
+                  positions={positions}
+                  scouts={scouts}
+                  selectedLeague={selectedLeague}
+                  setSelectedLeague={setSelectedLeague}
+                  selectedPosition={selectedPosition}
+                  setSelectedPosition={setSelectedPosition}
+                  scoutFilter={scoutFilter}
+                  setScoutFilter={setScoutFilter}
+                  searchText={searchText}
+                  setSearchText={setSearchText}
                 />
-                <FormControl size="small">
-                  <InputLabel>Filter by League</InputLabel>
-                  <Select value={selectedLeague} label="Filter by League" onChange={e => setSelectedLeague(e.target.value)} sx={{ minWidth: 150 }}>
-                    <MenuItem value="">All</MenuItem>
-                    {leagues.map(l => (
-                      <MenuItem key={l} value={l}>{l}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl size="small">
-                  <InputLabel>Filter by Position</InputLabel>
-                  <Select value={selectedPosition} label="Filter by Position" onChange={e => setSelectedPosition(e.target.value)} sx={{ minWidth: 150 }}>
-                    <MenuItem value="">All</MenuItem>
-                    {positions.map(p => (
-                      <MenuItem key={p} value={p}>{p}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl size="small">
-                  <InputLabel>Sort by Scout Rank</InputLabel>
-                  <Select value={scoutFilter} label="Sort by Scout Rank" onChange={e => setScoutFilter(e.target.value)} sx={{ minWidth: 170 }}>
-                    <MenuItem value="">None</MenuItem>
-                    {scouts.map(s => (
-                      <MenuItem key={s} value={s}>{s}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
               </Box>
             </Box>
 
