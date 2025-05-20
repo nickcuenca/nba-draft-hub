@@ -17,6 +17,15 @@
     top: 0;
     left: 0;
   }
+
+@media (max-width: 768px) {
+  .card-front {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 80vh;
+    padding-right: 8px;
+  }
+}
   
   .card-front {
     transform: rotateY(0deg);
