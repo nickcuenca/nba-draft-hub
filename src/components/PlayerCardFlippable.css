@@ -41,7 +41,7 @@
   .card-front::after {
   content: '';
   display: block;
-  height: 32px;
+  height: 400px;
 }
 
   .card-front::-webkit-scrollbar {
