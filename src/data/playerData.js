@@ -28,8 +28,6 @@ seasonLogs.forEach(entry => {
     ...stats
   } = entry;
 
-  if (entry.League !== 'NCAA') return;
-
   const excludedKeys = ['Season', 'League', 'Team', 'w', 'l', 'GS', 'age'];
   const perGameStats = {};
 

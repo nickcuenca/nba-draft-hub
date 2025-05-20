@@ -20,10 +20,23 @@
 
 @media (max-width: 768px) {
   .card-front {
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     max-height: 80vh;
     padding-right: 8px;
+  }
+
+  .card-front::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .card-front::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+
+  .card-front::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
   

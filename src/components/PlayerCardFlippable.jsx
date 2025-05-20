@@ -42,7 +42,7 @@ function PlayerPage() {
         <Box className="flipper">
 
           {/* Front Face */}
-          <Box className="front">
+          <Box className="card-front">
             <img
               src={player.photoUrl || 'https://wallpapersok.com/images/thumbnail/basic-default-pfp-pxi77qv5o0zuz8j3.webp'}
               alt={player.name}
