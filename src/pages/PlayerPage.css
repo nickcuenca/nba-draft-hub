@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   background: url('https://dmn-dallas-news-prod.cdn.arcpublishing.com/resizer/v2/MKEXF2RCXBHX3DRFLDFHSULAYM.jpg?auth=f977fb0d94fef1c3d36f35d4cea2f28fcc6efca03c46ee1aa6d154f5124473e6&height=1878&quality=80') center center / cover no-repeat;
   position: relative;
   padding: 60px 0 0;
@@ -15,6 +15,15 @@
   padding: 24px 0;
   width: 100%;
   margin-top: auto;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+html, body, #root {
+  width: 100%;
 }
 
 .player-bg-video {
